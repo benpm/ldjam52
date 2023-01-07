@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends RigidBody2D
 
 # The speed at which the object will float away
 var float_speed = 100
@@ -16,12 +16,12 @@ func _physics_process(delta):
 		# Calculate the direction to float in
 		var float_direction = (position - player.position).normalized()
 		
-		# Move in the float direction
-		position += float_direction * float_speed * delta
+		# Apply a force in the float direction
+		apply_impulse(float_direction * float_speed)
 		
 		# Rotate slightly as the object floats away
 		rotation += 1
-		
+
 # If the player touches the dream it disappears
 func _on_Dream_body_entered(body):
 	body.add_dream()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Dream.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Nightmare.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -14,7 +14,7 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=2]
 radius = 37.0
 
-[node name="Dream" type="RigidBody2D"]
+[node name="Nightmare" type="RigidBody2D"]
 collision_layer = 0
 script = ExtResource( 1 )
 
