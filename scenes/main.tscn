@@ -1,9 +1,62 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://objects/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/camera.gd" type="Script" id=2]
+[ext_resource path="res://sprites/building_tiles.png" type="Texture" id=4]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="ConvexPolygonShape2D" id=8]
+points = PoolVector2Array( 0, 0, 70, 0, 70, 70, 0, 70 )
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 485, 292 )
-texture = ExtResource( 1 )
+[sub_resource type="ConvexPolygonShape2D" id=9]
+points = PoolVector2Array( 0, 0, 70, 0, 70, 70, 0, 70 )
+
+[sub_resource type="TileSet" id=7]
+0/name = "building_tiles.png 0"
+0/texture = ExtResource( 4 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 700, 700 )
+0/tile_mode = 2
+0/autotile/icon_coordinate = Vector2( 0, 0 )
+0/autotile/tile_size = Vector2( 70, 70 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/priority_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 8 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 8 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 5, 4 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 9 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[node name="scene" type="Node2D"]
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource( 7 )
+cell_size = Vector2( 70, 70 )
+show_collision = true
+format = 1
+tile_data = PoolIntArray( 655363, 3, 262149, 655364, 3, 262149, 655365, 3, 262149, 655366, 3, 262149, 655367, 3, 262149, 655368, 3, 262149, 655369, 3, 262149, 655370, 3, 262149, 655371, 3, 262149, 655372, 3, 262149, 655373, 3, 262149, 655374, 3, 262149, 851963, 0, 262149, 851964, 0, 262149, 851965, 0, 262149, 851966, 0, 262149, 851967, 0, 262149, 786432, 0, 262149, 786433, 0, 262149, 786434, 0, 262149, 786435, 0, 262149, 786436, 0, 262149, 786437, 0, 262149, 786438, 0, 262149, 786439, 0, 262149, 786440, 0, 262149, 786441, 0, 262149, 786442, 0, 262149, 786443, 0, 262149, 786444, 0, 262149, 786445, 0, 262149, 786446, 0, 262149, 786447, 0, 262149, 786448, 0, 262149, 786449, 0, 262149, 786450, 0, 262149, 786451, 0, 262149, 786452, 0, 262149, 786453, 0, 262149 )
+
+[node name="camera" type="Camera2D" parent="."]
+current = true
+script = ExtResource( 2 )
