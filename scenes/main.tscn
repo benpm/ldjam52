@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://objects/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/camera.gd" type="Script" id=2]
+[ext_resource path="res://objects/Nightmare.tscn" type="PackedScene" id=3]
 [ext_resource path="res://sprites/building_tiles.png" type="Texture" id=4]
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
@@ -56,6 +57,9 @@ cell_size = Vector2( 70, 70 )
 show_collision = true
 format = 1
 tile_data = PoolIntArray( 655363, 3, 262149, 655364, 3, 262149, 655365, 3, 262149, 655366, 3, 262149, 655367, 3, 262149, 655368, 3, 262149, 655369, 3, 262149, 655370, 3, 262149, 655371, 3, 262149, 655372, 3, 262149, 655373, 3, 262149, 655374, 3, 262149, 851963, 0, 262149, 851964, 0, 262149, 851965, 0, 262149, 851966, 0, 262149, 851967, 0, 262149, 786432, 0, 262149, 786433, 0, 262149, 786434, 0, 262149, 786435, 0, 262149, 786436, 0, 262149, 786437, 0, 262149, 786438, 0, 262149, 786439, 0, 262149, 786440, 0, 262149, 786441, 0, 262149, 786442, 0, 262149, 786443, 0, 262149, 786444, 0, 262149, 786445, 0, 262149, 786446, 0, 262149, 786447, 0, 262149, 786448, 0, 262149, 786449, 0, 262149, 786450, 0, 262149, 786451, 0, 262149, 786452, 0, 262149, 786453, 0, 262149 )
+
+[node name="Nightmare" parent="." instance=ExtResource( 3 )]
+position = Vector2( 688, 788 )
 
 [node name="camera" type="Camera2D" parent="."]
 current = true

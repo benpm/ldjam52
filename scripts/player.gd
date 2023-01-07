@@ -9,8 +9,10 @@ export(float) var movespeed: float = 8.0
 export(float) var gravity: float = 0.35
 export(float) var jumpvel: float = 6
 export(float) var fixrate: float = 1.0
+export(float) var attack_cooldown: float = 0.5
 
 onready var sprite: AnimatedSprite = $sprite
+onready var attack_area: Area2D = $attack_area
 
 onready var initpos: Vector2 = position
 var vel: Vector2 = Vector2(0, 0)
@@ -21,14 +23,19 @@ var landed: bool
 var stepped: bool
 var dead := false
 var dream = 0
+var can_attack := true
 
 func add_dream(amount):
 	dream += amount
 
 func _ready() -> void:
-	pass
+	disable_attack_area()
 
 func _process(_delta: float) -> void:
+	# Reset attack area
+	# if attack_area.monitoring:
+	# 	disable_attack_area()
+
 	# Control animation
 	if abs(vel.y) < 0.1:
 		if sprite.animation != "run":
@@ -104,8 +111,33 @@ func _physics_process(_delta: float) -> void:
 			# if t.tile_set.is_damage_tile(c):
 			# 	death()
 
+func _input(event: InputEvent):
+	if can_attack and event.is_action("attack"):
+		enable_attack_area()
+		can_attack = false
+		var mouse = get_global_mouse_position()
+		attack_area.rotation = position.angle_to_point(mouse) - PI / 2
+		get_tree().create_timer(attack_cooldown).connect("timeout", self, "reset_attack")
+
+func enable_attack_area():
+	attack_area.monitoring = true
+	attack_area.show()
+
+func disable_attack_area():
+	attack_area.monitoring = false
+	attack_area.hide()
+
+func reset_attack():
+	can_attack = true
+
 func death():
 	dead = true
 	Sound.play("die", position)
 	hide()
 	# Global.game.player_died()
+
+# Attack area collision with enemy
+func _on_attack_area_body_entered(body: Node):
+	body.health -= 1
+	print("hit nightmare")
+	body.apply_impulse(Vector2.ZERO, Vector2(0, -1) * 1000)

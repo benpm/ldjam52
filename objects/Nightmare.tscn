@@ -15,7 +15,7 @@ animations = [ {
 radius = 37.0
 
 [node name="Nightmare" type="RigidBody2D"]
-collision_layer = 0
+collision_layer = 4
 script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
