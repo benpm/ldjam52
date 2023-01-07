@@ -8,7 +8,6 @@ export(float) var maxfall: float = 16.0
 export(float) var movespeed: float = 8.0
 export(float) var gravity: float = 0.35
 export(float) var jumpvel: float = 6
-export(float) var fixrate: float = 1.0
 export(float) var attack_cooldown: float = 0.5
 export(float) var catcher_point_speed: float = 0.05
 
@@ -87,6 +86,30 @@ func _process(_delta: float) -> void:
 				catching = false
 				catcher_line.clear_points()
 				break
+		
+		# Check if line intersects with nightmares
+		if catcher_line.points.size() > 0:
+			for n in get_tree().get_nodes_in_group("nightmare"):
+				var ext = Vector2.ZERO
+				match n.shape.get_class():
+					"RectangleShape2D":	
+						ext = n.shape.extents
+					"CircleShape2D":
+						ext = Vector2(n.shape.radius, n.shape.radius)
+				var bbox_points = [
+					n.position + Vector2(-ext.x, -ext.y),
+					n.position + Vector2(ext.x, -ext.y),
+					n.position + Vector2(ext.x, ext.y),
+					n.position + Vector2(-ext.x, ext.y)
+				]
+				print(n.get_class())
+				if Geometry.intersect_polyline_with_polygon_2d(catcher_line.points, bbox_points):
+					Input.action_release("action")
+					catching = false
+					catcher_line.clear_points()
+					n.health -= 1
+					n.apply_impulse(Vector2.ZERO, -(position - n.position).normalized() * 500)
+					break
 
 	# Draw dreamcatcher path
 	if not intersection and Input.is_action_pressed("action") or catching:
@@ -94,8 +117,7 @@ func _process(_delta: float) -> void:
 		
 		var pts = catcher_line.points.size()
 		# Set catcher point to mouse if no points exist
-		if pts == 0:
-			catcher_point = mouse
+		catcher_point = mouse
 		# Add new points for line as mouse is dragged
 		if pts == 0 or catcher_point.distance_to(catcher_line.points[pts - 1]) > 10:
 			catcher_line.add_point(catcher_point)
@@ -109,10 +131,8 @@ func _process(_delta: float) -> void:
 			if catcher_point.distance_to(catcher_line.points[0]) < 1:
 				# Catch all dreams inside catcher line
 				for d in get_tree().get_nodes_in_group("dream"):
-					if Geometry.is_point_in_polygon(d.position, catcher_line.points):
-						d.get_parent().remove_child(d)
-						dream += 1
-				print(dream)
+					if not d.catching and Geometry.is_point_in_polygon(d.position, catcher_line.points):
+						d.catching = true
 
 				catcher_line.clear_points()
 				catching = false

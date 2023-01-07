@@ -14,9 +14,10 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=2]
 radius = 37.0
 
-[node name="Nightmare" type="RigidBody2D"]
+[node name="Nightmare" type="RigidBody2D" groups=["nightmare"]]
 collision_layer = 4
 script = ExtResource( 1 )
+health = 3
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )

@@ -24,6 +24,9 @@ extents = Vector2( 32, 32 )
 
 [node name="player" type="KinematicBody2D"]
 script = ExtResource( 1 )
+gravity = 0.6
+jumpvel = 9.0
+catcher_point_speed = 0.15
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -21 )

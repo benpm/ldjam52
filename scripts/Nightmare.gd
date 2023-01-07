@@ -3,12 +3,13 @@ extends RigidBody2D
 export (int) var health := 100
 
 # The speed at which the object will float away
-var float_speed = 50
+var float_speed = 20
 
 # The distance at which the object will start floating away
 var float_distance = 1000
 
 onready var player = $"/root/scene/player"
+onready var shape = $CollisionShape2D.shape
 
 func _process(delta):
 	# Get the distance between the player and this object
@@ -24,3 +25,7 @@ func _process(delta):
 		
 		# Rotate slightly as the object floats away
 		rotation += 1
+	
+	if health <= 0:
+		# If the object has no health, destroy it
+		queue_free()

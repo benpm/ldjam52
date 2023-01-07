@@ -93,7 +93,6 @@ project/assembly_name="ldjam52"
 [physics]
 
 common/enable_pause_aware_picking=true
-2d/default_gravity=160
 
 [rendering]
 
