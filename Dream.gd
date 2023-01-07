@@ -14,7 +14,7 @@ func _physics_process(delta):
 	# If the player is within the float distance, float away
 	if distance < float_distance:
 		# Calculate the direction to float in
-		var float_direction = (position - player.position).normalized()
+		var float_direction = (position + player.position).normalized()
 		var float_velocity = float_direction * float_speed
 		set_linear_velocity(float_velocity)
 		rotation += 1
