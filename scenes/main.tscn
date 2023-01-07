@@ -50,9 +50,6 @@ points = PoolVector2Array( 0, 0, 70, 0, 70, 70, 0, 70 )
 
 [node name="scene" type="Node2D"]
 
-[node name="player" parent="." instance=ExtResource( 1 )]
-catcher_point_speed = 0.95
-
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 7 )
 cell_size = Vector2( 70, 70 )
@@ -81,3 +78,6 @@ position = Vector2( 871, 521 )
 
 [node name="Dream5" parent="." instance=ExtResource( 5 )]
 position = Vector2( 390, 724 )
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+catcher_point_speed = 0.95
