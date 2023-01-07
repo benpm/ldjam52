@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dream.png-3ae1c3037370a083e2d2f52fb90c7fa9.stex"
+path="res://.import/NightmareSprite.png-8550e8b023ad551848b5d30af0777e47.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Dream.png"
-dest_files=[ "res://.import/Dream.png-3ae1c3037370a083e2d2f52fb90c7fa9.stex" ]
+source_file="res://sprites/NightmareSprite.png"
+dest_files=[ "res://.import/NightmareSprite.png-8550e8b023ad551848b5d30af0777e47.stex" ]
 
 [params]
 
