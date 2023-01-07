@@ -1,17 +1,20 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://sprites/PlayerAnimations/Falling/Frame4.png" type="Texture" id=2]
 [ext_resource path="res://sprites/PlayerAnimations/WalkCycle/Frame2.png" type="Texture" id=3]
 [ext_resource path="res://sprites/PlayerAnimations/WalkCycle/Frame3.png" type="Texture" id=4]
 [ext_resource path="res://sprites/PlayerAnimations/WalkCycle/Frame5.png" type="Texture" id=5]
 [ext_resource path="res://sprites/PlayerAnimations/WalkCycle/Frame4.png" type="Texture" id=6]
 [ext_resource path="res://sprites/PlayerAnimations/WalkCycle/Frame1.png" type="Texture" id=7]
 [ext_resource path="res://sprites/PlayerAnimations/WalkCycle/Standing.png" type="Texture" id=8]
+[ext_resource path="res://sprites/PlayerAnimations/Falling/Frame3.png" type="Texture" id=9]
+[ext_resource path="res://sprites/PlayerAnimations/Falling/Frame2.png" type="Texture" id=10]
+[ext_resource path="res://sprites/PlayerAnimations/Falling/Frame1.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 2 ) ],
 "loop": true,
 "name": "fall",
 "speed": 5.0
