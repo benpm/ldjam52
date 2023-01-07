@@ -6,13 +6,10 @@ class_name Player
 
 export(float) var maxfall: float = 16.0
 export(float) var movespeed: float = 8.0
-export(float) var gravity: float = 0.35
 export(float) var jumpvel: float = 6
-export(float) var attack_cooldown: float = 0.5
 export(float) var catcher_point_speed: float = 0.05
 
 onready var sprite: AnimatedSprite = $sprite
-onready var attack_area: Area2D = $attack_area
 onready var catcher_line: Line2D = $catcher_line_container/catcher_line
 
 onready var initpos: Vector2 = position
@@ -24,25 +21,13 @@ var landed: bool
 var stepped: bool
 var dead := false
 var dream = 0
-var can_attack := true
-var attack_disable_nextframe := false
 var catcher_point := Vector2.ZERO
 var catching := false
 
 func add_dream(amount):
 	dream += amount
 
-func _ready() -> void:
-	disable_attack_area()
-
 func _process(_delta: float) -> void:
-	# Reset attack area
-	if attack_area.monitoring:
-		if attack_disable_nextframe:
-			disable_attack_area()
-			attack_disable_nextframe = false
-		else:
-			attack_disable_nextframe = true
 
 	# Control animation
 	if abs(vel.y) < 0.1:
@@ -82,7 +67,7 @@ func _process(_delta: float) -> void:
 					intersection = true
 					break
 			if intersection:
-				Input.action_release("action")
+				Input.action_release("attack")
 				catching = false
 				catcher_line.clear_points()
 				break
@@ -104,15 +89,15 @@ func _process(_delta: float) -> void:
 				]
 				print(n.get_class())
 				if Geometry.intersect_polyline_with_polygon_2d(catcher_line.points, bbox_points):
-					Input.action_release("action")
+					Input.action_release("attack")
 					catching = false
 					catcher_line.clear_points()
 					n.health -= 1
-					n.apply_impulse(Vector2.ZERO, -(position - n.position).normalized() * 500)
+					# n.vel += -(position - n.position).normalized() * 500
 					break
 
 	# Draw dreamcatcher path
-	if not intersection and Input.is_action_pressed("action") or catching:
+	if not intersection and Input.is_action_pressed("attack") or catching:
 		var mouse = get_global_mouse_position()
 		
 		var pts = catcher_line.points.size()
@@ -136,10 +121,10 @@ func _process(_delta: float) -> void:
 
 				catcher_line.clear_points()
 				catching = false
-				Input.action_release("action")
+				Input.action_release("attack")
 		else:
 			catcher_point = lerp(catcher_point, mouse, catcher_point_speed)
-	elif Input.is_action_just_released("action"):
+	elif Input.is_action_just_released("attack"):
 		if not catching:
 			catcher_line.clear_points()
 
@@ -155,12 +140,12 @@ func _physics_process(_delta: float) -> void:
 	
 	# Set velocity to zero on ground
 	if is_on_floor():
-		if pvel.y > gravity + 0.1:
+		if pvel.y > Game.gravity + 0.1:
 			Sound.play("hit1", position)
 		vel.y = 0
 		jumps = 2
 	else:
-		vel.y += gravity
+		vel.y += Game.gravity
 	
 	# Jump
 	if Input.is_action_just_pressed("jump") and jumps > 0:
@@ -194,33 +179,9 @@ func _physics_process(_delta: float) -> void:
 			# if t.tile_set.is_damage_tile(c):
 			# 	death()
 
-func _input(event: InputEvent):
-	if can_attack and event.is_action("attack"):
-		enable_attack_area()
-		can_attack = false
-		var mouse = get_global_mouse_position()
-		attack_area.rotation = position.angle_to_point(mouse) - PI / 2
-		get_tree().create_timer(attack_cooldown).connect("timeout", self, "reset_attack")
-
-func enable_attack_area():
-	attack_area.monitoring = true
-	attack_area.show()
-
-func disable_attack_area():
-	attack_area.monitoring = false
-	attack_area.hide()
-
-func reset_attack():
-	can_attack = true
-
 func death():
 	dead = true
 	Sound.play("die", position)
 	hide()
 	# Global.game.player_died()
 
-# Attack area collision with enemy
-func _on_attack_area_body_entered(body: Node):
-	body.health -= 1
-	print("hit nightmare")
-	body.apply_impulse(Vector2.ZERO, -(position - body.position).normalized() * 1000)
