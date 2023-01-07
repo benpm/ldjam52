@@ -24,6 +24,7 @@ var stepped: bool
 var dead := false
 var dream = 0
 var can_attack := true
+var attack_disable_nextframe := false
 
 func add_dream(amount):
 	dream += amount
@@ -33,8 +34,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	# Reset attack area
-	# if attack_area.monitoring:
-	# 	disable_attack_area()
+	if attack_area.monitoring:
+		if attack_disable_nextframe:
+			disable_attack_area()
+			attack_disable_nextframe = false
+		else:
+			attack_disable_nextframe = true
 
 	# Control animation
 	if abs(vel.y) < 0.1:
@@ -140,4 +145,4 @@ func death():
 func _on_attack_area_body_entered(body: Node):
 	body.health -= 1
 	print("hit nightmare")
-	body.apply_impulse(Vector2.ZERO, Vector2(0, -1) * 1000)
+	body.apply_impulse(Vector2.ZERO, -(position - body.position).normalized() * 1000)

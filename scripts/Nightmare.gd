@@ -3,14 +3,14 @@ extends RigidBody2D
 export (int) var health := 100
 
 # The speed at which the object will float away
-var float_speed = 100
+var float_speed = 50
 
 # The distance at which the object will start floating away
-var float_distance = 100
+var float_distance = 1000
 
 onready var player = $"/root/scene/player"
 
-func _physics_process(delta):
+func _process(delta):
 	# Get the distance between the player and this object
 	var distance = position.distance_to(player.position)
 	
