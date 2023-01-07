@@ -69,20 +69,54 @@ func _process(_delta: float) -> void:
 	# if position.y > maxy:
 	# 	death()
 
+	# Check if catcher line intersect with itself
+	var intersection = false
+	if not catching:
+		for i in range(catcher_line.points.size() - 1):
+			var a1 = catcher_line.points[i]
+			var a2 = catcher_line.points[i + 1]
+			for j in range(i + 2, catcher_line.points.size() - 1):
+				var b1 = catcher_line.points[j]
+				var b2 = catcher_line.points[j + 1]
+				var d = Geometry.segment_intersects_segment_2d(a1, a2, b1, b2)
+				if d != null:
+					intersection = true
+					break
+			if intersection:
+				Input.action_release("action")
+				catching = false
+				catcher_line.clear_points()
+				break
+
 	# Draw dreamcatcher path
-	if Input.is_action_pressed("action") or catching:
+	if not intersection and Input.is_action_pressed("action") or catching:
 		var mouse = get_global_mouse_position()
+		
 		var pts = catcher_line.points.size()
+		# Set catcher point to mouse if no points exist
 		if pts == 0:
 			catcher_point = mouse
+		# Add new points for line as mouse is dragged
 		if pts == 0 or catcher_point.distance_to(catcher_line.points[pts - 1]) > 10:
 			catcher_line.add_point(catcher_point)
+
+		# Check if distance to first point is close enough to close loop
 		if (pts > 5 and catcher_point.distance_to(catcher_line.points[0]) < 25) or catching:
+			# Slide catcher point to first point to close loop
 			catcher_point = lerp(catcher_point, catcher_line.points[0], catcher_point_speed)
 			catching = true
+			# Catching is done when catcher point is close enough to first point
 			if catcher_point.distance_to(catcher_line.points[0]) < 1:
+				# Catch all dreams inside catcher line
+				for d in get_tree().get_nodes_in_group("dream"):
+					if Geometry.is_point_in_polygon(d.position, catcher_line.points):
+						d.get_parent().remove_child(d)
+						dream += 1
+				print(dream)
+
 				catcher_line.clear_points()
 				catching = false
+				Input.action_release("action")
 		else:
 			catcher_point = lerp(catcher_point, mouse, catcher_point_speed)
 	elif Input.is_action_just_released("action"):

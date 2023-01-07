@@ -14,8 +14,10 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=2]
 radius = 37.0
 
-[node name="Dream" type="RigidBody2D"]
+[node name="Dream" type="RigidBody2D" groups=["dream"]]
 collision_layer = 0
+mode = 3
+gravity_scale = 0.0
 script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

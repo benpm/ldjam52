@@ -6,9 +6,11 @@ var float_speed = 100
 # The distance at which the object will start floating away
 var float_distance = 100
 
+onready var shape: Shape2D = $CollisionShape2D.shape
+onready var player = $"/root/scene/player"
+
 func _physics_process(delta):
 	# Get the distance between the player and this object
-	var player = get_node("/root/Player")
 	var distance = position.distance_to(player.position)
 	
 	# If the player is within the float distance, float away
