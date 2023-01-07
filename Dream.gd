@@ -15,13 +15,9 @@ func _physics_process(delta):
 	if distance < float_distance:
 		# Calculate the direction to float in
 		var float_direction = (position - player.position).normalized()
-		
-		# Apply a force in the float direction
-		apply_impulse(float_direction * float_speed)
-		
-		# Rotate slightly as the object floats away
+		var float_velocity = float_direction * float_speed
+		set_linear_velocity(float_velocity)
 		rotation += 1
-
 # If the player touches the dream it disappears
 func _on_Dream_body_entered(body):
 	body.add_dream()
