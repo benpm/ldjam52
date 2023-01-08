@@ -16,6 +16,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=2]
+radius = 68.1175
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -50,7 +51,9 @@ tracks/0/keys = {
 
 [node name="Wasp" type="KinematicBody2D"]
 script = ExtResource( 2 )
+health = 6
 move_type = 2
+has_gravity = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 6 )

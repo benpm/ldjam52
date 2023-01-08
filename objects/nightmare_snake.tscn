@@ -60,6 +60,7 @@ health = 5
 move_type = 2
 move_speed = 10.0
 has_gravity = false
+rotate_dir = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 6 )

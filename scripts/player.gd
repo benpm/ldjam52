@@ -94,6 +94,7 @@ func _process(_delta: float) -> void:
 					catching = false
 					catcher_line.clear_points()
 					n.attacked(1)
+					Input.action_release("attack")
 					# n.vel += -(position - n.position).normalized() * 500
 					break
 
@@ -186,3 +187,7 @@ func death():
 	hide()
 	# Global.game.player_died()
 
+func attacked(dmg):
+	health -= dmg
+	animator.playback_speed = 3
+	animator.play("blink")

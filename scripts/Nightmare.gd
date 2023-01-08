@@ -6,6 +6,7 @@ export(MoveType) var move_type := MoveType.FLOAT
 export (float) var move_speed := 20.0
 export(float) var jumpvel: float = 6
 export (bool) var has_gravity: bool = true
+export (bool) var rotate_dir: bool = false
 
 # The distance at which the object will start floating away
 var float_distance = 1000
@@ -18,7 +19,7 @@ var stepped: bool
 var attack_timer: float = 0.5
 var stun_timer: float = 0.0
 
-onready var player: Player = $"/root/scene/player"
+onready var player = $"/root/scene/player"
 onready var shape = $CollisionShape2D.shape
 onready var sprite: AnimatedSprite = $AnimatedSprite
 onready var animator: AnimationPlayer = $AnimationPlayer
@@ -27,7 +28,7 @@ func _ready():
 	add_to_group("nightmare")
 	layers = 0
 	collision_mask = 0
-	# set_collision_layer_bit(Game.CollLayer.ENEMY, true)
+	set_collision_layer_bit(Game.CollLayer.ENEMY, true)
 	set_collision_mask_bit(Game.CollLayer.PLATFORM, true)
 
 func _process(delta):
@@ -59,33 +60,33 @@ func _process(delta):
 func attack():
 	sprite.play("attack")
 	if position.distance_to(player.position) < 30:
-		player.health -= 1
-		player.animator.play("blink")
+		player.attacked(1)
 
 func attacked(dmg):
 	health -= dmg
 	animator.play("blink")
-	animator.playback_speed = 2
-	stun_timer = 0.5
+	animator.playback_speed = 3
+	stun_timer = 0.25
+	sprite.stop()
 
 func _physics_process(_delta: float) -> void:
 	# Control animation
 	match move_type:
 		MoveType.RUN:
-			if abs(pvel.y) < 0.1:
+			if abs(vel.y) < 0.1:
 				if sprite.animation != "run":
 					sprite.animation = "run"
-				sprite.speed_scale = abs(pvel.x / 3)
-				if pvel.x == 0:
+				sprite.speed_scale = abs(vel.x / 3)
+				if vel.x == 0:
 					sprite.frame = 0
 				if sprite.frame == 1 and not stepped:
 					stepped = true
 				elif sprite.frame != 1:
 					stepped = false
-			elif pvel.y > 0.1:
+			elif vel.y > 0.1:
 				sprite.animation = "fall"
-			if abs(pvel.x) > 0:
-				sprite.flip_h = pvel.x < 0
+			if abs(vel.x) > 0:
+				sprite.flip_h = vel.x < 0
 		MoveType.FLOAT:
 			sprite.animation = "float"
 		MoveType.FLY:
@@ -131,6 +132,8 @@ func move_float():
 		
 		# Rotate slightly as the object floats away
 		sprite.rotation += 1
+	else:
+		vel = Vector2.ZERO
 
 func move_run():
 	# Get the direction to the player
@@ -155,5 +158,8 @@ func move_fly():
 		# Apply a force in the float direction
 		vel = vel.linear_interpolate(-float_direction * move_speed, 0.25)
 
-		sprite.rotation = vel.angle()
+		if rotate_dir:
+			sprite.rotation = vel.angle()
+		else:
+			sprite.flip_h = float_direction.x > 0
 		sprite.play("fly")
