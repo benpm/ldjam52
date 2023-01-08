@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/Nightmare.gd" type="Script" id=1]
 [ext_resource path="res://sprites/Nightmares/Snake/Frame3.png" type="Texture" id=2]
@@ -24,14 +24,46 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 13.051
-height = 94.0021
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 14.0684, 62.9848 )
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "blink"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 0, 0, 1, 0, 1, 0, 1, 0, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 5, 5, 5, 1 ), Color( 1, 1, 1, 1 ), Color( 5, 5, 5, 1 ), Color( 1, 1, 1, 1 ), Color( 5, 5, 5, 1 ), Color( 1, 1, 1, 1 ), Color( 5, 5, 5, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Snake" type="KinematicBody2D"]
 script = ExtResource( 1 )
+health = 5
 move_type = 2
 move_speed = 10.0
+has_gravity = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -42,3 +74,7 @@ flip_h = true
 position = Vector2( 7, -1 )
 rotation = 1.56971
 shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 3 )
+anims/blink = SubResource( 4 )

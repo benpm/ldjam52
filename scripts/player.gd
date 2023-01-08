@@ -8,9 +8,11 @@ export(float) var maxfall: float = 16.0
 export(float) var movespeed: float = 8.0
 export(float) var jumpvel: float = 6
 export(float) var catcher_point_speed: float = 0.05
+export(float) var health: int = 3
 
 onready var sprite: AnimatedSprite = $sprite
 onready var catcher_line: Line2D = $catcher_line_container/catcher_line
+onready var animator: AnimationPlayer = $AnimationPlayer
 
 onready var initpos: Vector2 = position
 var vel: Vector2 = Vector2(0, 0)
@@ -87,12 +89,11 @@ func _process(_delta: float) -> void:
 					n.position + Vector2(ext.x, ext.y),
 					n.position + Vector2(-ext.x, ext.y)
 				]
-				print(n.get_class())
 				if Geometry.intersect_polyline_with_polygon_2d(catcher_line.points, bbox_points):
 					Input.action_release("attack")
 					catching = false
 					catcher_line.clear_points()
-					n.health -= 1
+					n.attacked(1)
 					# n.vel += -(position - n.position).normalized() * 500
 					break
 
