@@ -12,5 +12,6 @@ animations = [ {
 } ]
 
 [node name="dream" type="AnimatedSprite" groups=["dream"]]
+z_index = 1
 frames = SubResource( 1 )
 script = ExtResource( 1 )

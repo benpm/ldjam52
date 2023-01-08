@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://objects/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/camera.gd" type="Script" id=2]
@@ -15,8 +15,15 @@
 [ext_resource path="res://art/Building1.png" type="Texture" id=13]
 [ext_resource path="res://art/Building2.png" type="Texture" id=14]
 [ext_resource path="res://art/Building3.png" type="Texture" id=15]
+[ext_resource path="res://objects/window.tscn" type="PackedScene" id=16]
 
 [node name="scene" type="Node2D"]
+
+[node name="Fog" type="Sprite" parent="."]
+material = ExtResource( 10 )
+position = Vector2( 1169, 1934 )
+scale = Vector2( 172.16, 119.214 )
+texture = ExtResource( 9 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 4 )
@@ -30,6 +37,7 @@ move_type = 1
 
 [node name="camera" type="Camera2D" parent="."]
 current = true
+zoom = Vector2( 2, 2 )
 script = ExtResource( 2 )
 
 [node name="Dream" parent="." instance=ExtResource( 5 )]
@@ -59,12 +67,6 @@ position = Vector2( -832, 607 )
 
 [node name="Wasp" parent="." instance=ExtResource( 8 )]
 position = Vector2( -485, 684 )
-
-[node name="Fog" type="Sprite" parent="."]
-material = ExtResource( 10 )
-position = Vector2( 1169, 1934 )
-scale = Vector2( 172.16, 119.214 )
-texture = ExtResource( 9 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -107,3 +109,15 @@ motion_scale = Vector2( 0.6, 1 )
 [node name="Building1" type="Sprite" parent="ParallaxBackground/Building1"]
 texture = ExtResource( 13 )
 centered = false
+
+[node name="window" parent="." instance=ExtResource( 16 )]
+position = Vector2( 232, 938 )
+
+[node name="window2" parent="." instance=ExtResource( 16 )]
+position = Vector2( 417, 938 )
+
+[node name="window3" parent="." instance=ExtResource( 16 )]
+position = Vector2( 690, 1130 )
+
+[node name="window4" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1472, 944 )
