@@ -18,6 +18,7 @@ tile_data = PoolIntArray( 655363, 3, 262149, 655364, 3, 262149, 655365, 3, 26214
 
 [node name="Nightmare" parent="." instance=ExtResource( 3 )]
 position = Vector2( 688, 788 )
+move_type = 1
 
 [node name="camera" type="Camera2D" parent="."]
 current = true

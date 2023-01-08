@@ -20,8 +20,8 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 7.0
-height = 40.0
+radius = 13.051
+height = 94.0021
 
 [node name="Snake" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -32,6 +32,6 @@ animation = "jump"
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 2, 2 )
+position = Vector2( 7, -1 )
 rotation = 1.56971
 shape = SubResource( 2 )
