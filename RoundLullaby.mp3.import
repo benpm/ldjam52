@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/RoundLullaby.mp3-18c5f8b68c0e5a559d0f12d1cb292f02.mp3str"
+
+[deps]
+
+source_file="res://RoundLullaby.mp3"
+dest_files=[ "res://.import/RoundLullaby.mp3-18c5f8b68c0e5a559d0f12d1cb292f02.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
