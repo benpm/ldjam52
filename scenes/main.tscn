@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://objects/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/camera.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://objects/nightmare_demon1.tscn" type="PackedScene" id=6]
 [ext_resource path="res://objects/Snake_nightmare.tscn" type="PackedScene" id=7]
 [ext_resource path="res://objects/Wasp.tscn" type="PackedScene" id=8]
+[ext_resource path="res://icon.png" type="Texture" id=9]
+[ext_resource path="res://fog.tres" type="Material" id=10]
 
 [node name="scene" type="Node2D"]
 
@@ -51,3 +53,9 @@ position = Vector2( -832, 607 )
 
 [node name="Wasp" parent="." instance=ExtResource( 8 )]
 position = Vector2( -485, 684 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 10 )
+position = Vector2( 1169, 1934 )
+scale = Vector2( 378.156, 261.859 )
+texture = ExtResource( 9 )
