@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://scripts/Snake.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Nightmare.gd" type="Script" id=1]
 [ext_resource path="res://sprites/Nightmares/Snake/Frame3.png" type="Texture" id=2]
 [ext_resource path="res://sprites/Nightmares/Snake/Frame1.png" type="Texture" id=3]
 [ext_resource path="res://sprites/Nightmares/Snake/Frame2.png" type="Texture" id=4]
@@ -8,14 +8,19 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 4 ) ],
+"frames": [ ExtResource( 3 ) ],
 "loop": true,
-"name": "jump",
+"name": "attack",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 5 ) ],
 "loop": true,
-"name": "run",
+"name": "fly",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "jump",
 "speed": 5.0
 } ]
 
@@ -25,10 +30,12 @@ height = 94.0021
 
 [node name="Snake" type="KinematicBody2D"]
 script = ExtResource( 1 )
+move_type = 2
+move_speed = 10.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-animation = "jump"
+animation = "attack"
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 export (int) var health := 100
-enum MoveType {FLOAT, RUN}
+enum MoveType {FLOAT, RUN, FLY}
 export(MoveType) var move_type := MoveType.FLOAT
 export (float) var move_speed := 20.0
 export(float) var jumpvel: float = 6
@@ -25,9 +25,9 @@ func _process(delta):
 			move_float()
 		MoveType.RUN:
 			move_run()
+		MoveType.FLY:
+			move_fly()
 	
-	
-
 	if health <= 0:
 		# If the object has no health, destroy it
 		queue_free()
@@ -96,5 +96,20 @@ func move_run():
 	# Apply a force in the direction
 	vel.x = sign(direction.x) * move_speed
 
-	if randf() < 0.01:
+	if player.position.y < position.y:
 		dojump = true
+
+func move_fly():
+	# Get the distance between the player and this object
+	var distance = position.distance_to(player.position)
+	
+	# If the player is within the float distance, float away
+	if distance < float_distance:
+		# Calculate the direction to float in
+		var float_direction = (position - player.position).normalized()
+		
+		# Apply a force in the float direction
+		vel = -float_direction * move_speed
+
+		sprite.rotation = float_direction.angle()
+		sprite.play("fly")

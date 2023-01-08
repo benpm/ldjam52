@@ -4,27 +4,22 @@
 [ext_resource path="res://sprites/demon1.png" type="Texture" id=2]
 
 [sub_resource type="AtlasTexture" id=8]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 405, 0, 135, 85 )
 
 [sub_resource type="AtlasTexture" id=3]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 135, 85 )
 
 [sub_resource type="AtlasTexture" id=4]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 135, 0, 135, 85 )
 
 [sub_resource type="AtlasTexture" id=5]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 270, 0, 135, 85 )
 
 [sub_resource type="AtlasTexture" id=6]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 405, 0, 135, 85 )
 
