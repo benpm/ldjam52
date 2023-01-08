@@ -23,8 +23,9 @@ var landed: bool
 var stepped: bool
 var dead := false
 var dream = 0
-var catcher_point := Vector2.ZERO
-var catching := false
+
+func _ready():
+	sprite.play("run")
 
 func add_dream(amount):
 	dream += amount
@@ -57,86 +58,74 @@ func _process(_delta: float) -> void:
 
 	# Check if catcher line intersect with itself
 	var intersection = false
-	if not catching:
-		for i in range(catcher_line.points.size() - 1):
-			var a1 = catcher_line.points[i]
-			var a2 = catcher_line.points[i + 1]
-			for j in range(i + 2, catcher_line.points.size() - 1):
-				var b1 = catcher_line.points[j]
-				var b2 = catcher_line.points[j + 1]
-				var d = Geometry.segment_intersects_segment_2d(a1, a2, b1, b2)
-				if d != null:
-					intersection = true
-					break
-			if intersection:
-				Input.action_release("attack")
-				catching = false
-				catcher_line.clear_points()
+	for i in range(catcher_line.points.size() - 1):
+		var a1 = catcher_line.points[i]
+		var a2 = catcher_line.points[i + 1]
+		for j in range(i + 2, catcher_line.points.size() - 1):
+			var b1 = catcher_line.points[j]
+			var b2 = catcher_line.points[j + 1]
+			var d = Geometry.segment_intersects_segment_2d(a1, a2, b1, b2)
+			if d != null:
+				intersection = true
 				break
-		
-		# Check if line intersects with nightmares
-		if catcher_line.points.size() > 0:
-			for n in get_tree().get_nodes_in_group("nightmare"):
-				var ext = Vector2.ZERO
-				match n.shape.get_class():
-					"RectangleShape2D":	
-						ext = n.shape.extents
-					"CircleShape2D":
-						ext = Vector2(n.shape.radius, n.shape.radius)
-				var bbox_points = [
-					n.position + Vector2(-ext.x, -ext.y),
-					n.position + Vector2(ext.x, -ext.y),
-					n.position + Vector2(ext.x, ext.y),
-					n.position + Vector2(-ext.x, ext.y)
-				]
-				if Geometry.intersect_polyline_with_polygon_2d(catcher_line.points, bbox_points):
-					Input.action_release("attack")
-					catching = false
-					catcher_line.clear_points()
-					n.attacked(1)
-					Input.action_release("attack")
-					# n.vel += -(position - n.position).normalized() * 500
-					break
+		if intersection:
+			Input.action_release("attack")
+			catcher_line.clear_points()
+			break
+	
+	# Check if line intersects with nightmares
+	if catcher_line.points.size() > 0:
+		for n in get_tree().get_nodes_in_group("nightmare"):
+			var ext = Vector2.ZERO
+			match n.shape.get_class():
+				"RectangleShape2D":	
+					ext = n.shape.extents
+				"CircleShape2D":
+					ext = Vector2(n.shape.radius, n.shape.radius)
+			var bbox_points = [
+				n.position + Vector2(-ext.x, -ext.y),
+				n.position + Vector2(ext.x, -ext.y),
+				n.position + Vector2(ext.x, ext.y),
+				n.position + Vector2(-ext.x, ext.y)
+			]
+			if Geometry.intersect_polyline_with_polygon_2d(catcher_line.points, bbox_points):
+				Input.action_release("attack")
+				catcher_line.clear_points()
+				n.attacked(1)
+				# n.vel += -(position - n.position).normalized() * 500
+				break
 
 	# Draw dreamcatcher path
-	if not intersection and Input.is_action_pressed("attack") or catching:
+	if not intersection and Input.is_action_pressed("attack"):
 		var mouse = get_global_mouse_position()
 		
 		var pts = catcher_line.points.size()
-		# Set catcher point to mouse if no points exist
-		catcher_point = mouse
 		# Add new points for line as mouse is dragged
-		if pts == 0 or catcher_point.distance_to(catcher_line.points[pts - 1]) > 10:
-			catcher_line.add_point(catcher_point)
+		if pts == 0 or mouse.distance_to(catcher_line.points[pts - 1]) > 10:
+			catcher_line.add_point(mouse)
 
 		# Check if distance to first point is close enough to close loop
-		if (pts > 5 and catcher_point.distance_to(catcher_line.points[0]) < 25) or catching:
-			# Slide catcher point to first point to close loop
-			catcher_point = lerp(catcher_point, catcher_line.points[0], catcher_point_speed)
-			catching = true
-			# Catching is done when catcher point is close enough to first point
-			if catcher_point.distance_to(catcher_line.points[0]) < 1:
-				# Catch all dreams inside catcher line
-				for d in get_tree().get_nodes_in_group("dream"):
-					if not d.catching and Geometry.is_point_in_polygon(d.position, catcher_line.points):
-						d.catching = true
+		if (pts > 5 and mouse.distance_to(catcher_line.points[0]) < 40):
+			# Catch all dreams inside catcher line
+			for d in get_tree().get_nodes_in_group("dream"):
+				if not d.catching and Geometry.is_point_in_polygon(d.position, catcher_line.points):
+					d.catching = true
 
-				catcher_line.clear_points()
-				catching = false
-				Input.action_release("attack")
-		else:
-			catcher_point = lerp(catcher_point, mouse, catcher_point_speed)
-	elif Input.is_action_just_released("attack"):
-		if not catching:
 			catcher_line.clear_points()
+			Input.action_release("attack")
+	if not Input.is_action_pressed("attack") and catcher_line.points.size() > 0:
+		catcher_line.clear_points()
 
 func _physics_process(_delta: float) -> void:
 
 	# Move left and right
-	if Input.is_action_pressed("right"):
-		vel.x = movespeed
-	elif Input.is_action_pressed("left"):
-		vel.x = -movespeed
+	if not Input.is_action_pressed("attack"):
+		if Input.is_action_pressed("right"):
+			vel.x = movespeed
+		elif Input.is_action_pressed("left"):
+			vel.x = -movespeed
+		else:
+			vel.x = 0
 	else:
 		vel.x = 0
 	
@@ -150,7 +139,7 @@ func _physics_process(_delta: float) -> void:
 		vel.y += Game.gravity
 	
 	# Jump
-	if Input.is_action_just_pressed("jump") and jumps > 0:
+	if not Input.is_action_pressed("attack") and Input.is_action_just_pressed("jump") and jumps > 0:
 		vel.y = -jumpvel
 		jumps -= 1
 		sprite.speed_scale = 1

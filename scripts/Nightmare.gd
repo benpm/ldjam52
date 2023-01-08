@@ -55,7 +55,7 @@ func _process(delta):
 	
 	if health <= 0:
 		# If the object has no health, destroy it
-		queue_free()
+		death()
 
 func attack():
 	sprite.play("attack")
@@ -163,3 +163,11 @@ func move_fly():
 		else:
 			sprite.flip_h = float_direction.x > 0
 		sprite.play("fly")
+
+func death():
+	var particles: CPUParticles2D = $"/root/scene/star_particles"
+	particles.position = position
+	particles.one_shot = true
+	particles.emitting = true
+	particles.restart()
+	queue_free()
