@@ -28,6 +28,11 @@ region = Rect2( 405, 0, 135, 85 )
 animations = [ {
 "frames": [ SubResource( 8 ) ],
 "loop": true,
+"name": "fall",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 8 ) ],
+"loop": true,
 "name": "jump",
 "speed": 5.0
 }, {
@@ -85,7 +90,7 @@ material = ExtResource( 3 )
 position = Vector2( 3.8147e-06, -65.25 )
 scale = Vector2( 1.54706, 1.54706 )
 frames = SubResource( 7 )
-animation = "jump"
+animation = "fall"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

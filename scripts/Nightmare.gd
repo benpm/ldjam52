@@ -70,21 +70,27 @@ func attacked(dmg):
 
 func _physics_process(_delta: float) -> void:
 	# Control animation
-	if abs(pvel.y) < 0.1:
-		if sprite.animation != "run":
-			sprite.animation = "run"
-		sprite.speed_scale = abs(pvel.x / 3)
-		if pvel.x == 0:
-			sprite.frame = 0
-		if sprite.frame == 1 and not stepped:
-			stepped = true
-		elif sprite.frame != 1:
-			stepped = false
-	elif pvel.y > 0.1:
-		sprite.animation = "fall"
-	if abs(pvel.x) > 0:
-		sprite.flip_h = pvel.x < 0
-	
+	match move_type:
+		MoveType.RUN:
+			if abs(pvel.y) < 0.1:
+				if sprite.animation != "run":
+					sprite.animation = "run"
+				sprite.speed_scale = abs(pvel.x / 3)
+				if pvel.x == 0:
+					sprite.frame = 0
+				if sprite.frame == 1 and not stepped:
+					stepped = true
+				elif sprite.frame != 1:
+					stepped = false
+			elif pvel.y > 0.1:
+				sprite.animation = "fall"
+			if abs(pvel.x) > 0:
+				sprite.flip_h = pvel.x < 0
+		MoveType.FLOAT:
+			sprite.animation = "float"
+		MoveType.FLY:
+			sprite.animation = "fly"
+		
 	# Set velocity to zero on ground
 	if has_gravity:
 		if is_on_floor():
@@ -95,17 +101,17 @@ func _physics_process(_delta: float) -> void:
 		else:
 			vel.y += Game.gravity
 	
-	# Jump
-	if jumps > 0 and dojump:
-		vel.y = -jumpvel
-		jumps -= 1
-		sprite.speed_scale = 1
-		sprite.play("jump")
-		dojump = false
-		if jumps == 1:
-			Sound.play("jump1", position)
-		else:
-			Sound.play("jump2", position)
+		# Jump
+		if jumps > 0 and dojump:
+			vel.y = -jumpvel
+			jumps -= 1
+			sprite.speed_scale = 1
+			sprite.play("jump")
+			dojump = false
+			if jumps == 1:
+				Sound.play("jump1", position)
+			else:
+				Sound.play("jump2", position)
 	
 	# Collision
 	pvel = vel
