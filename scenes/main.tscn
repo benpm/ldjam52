@@ -48,6 +48,7 @@ position = Vector2( 871, 521 )
 position = Vector2( 390, 724 )
 
 [node name="player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1384, 695 )
 catcher_point_speed = 0.95
 
 [node name="Nightmare2" parent="." instance=ExtResource( 6 )]
