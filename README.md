@@ -8,6 +8,7 @@ Ludum Dare 52 January 2023
 - [x] Limit line length
 - [x] Better dream art
 - [ ] More buildings
+- [ ] Show health
 - [ ] Progression screen
 - [ ] Improve nightmare behavior
 - [ ] Day / night cycle

@@ -36,7 +36,7 @@ text = "0"
 [node name="DreamSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 451, 359 )
 frames = ExtResource( 3 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="exit_button" type="TextureButton" parent="."]

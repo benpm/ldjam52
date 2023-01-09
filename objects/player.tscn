@@ -71,8 +71,8 @@ tracks/0/keys = {
 [node name="player" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 1 )
-movespeed = 14.0
-jumpvel = 15.0
+movespeed = 12.0
+jumpvel = 12.0
 catcher_point_speed = 0.15
 max_line_len = 1500.0
 catcher_line_curve = SubResource( 9 )
@@ -89,7 +89,6 @@ shape = SubResource( 6 )
 [node name="catcher_line_container" type="Node" parent="."]
 
 [node name="catcher_line" type="Line2D" parent="catcher_line_container"]
-points = PoolVector2Array( 36, 571, 73, 733, 211, 818, 188, 620 )
 width = 20.0
 default_color = Color( 1, 1, 1, 1 )
 texture = ExtResource( 12 )
