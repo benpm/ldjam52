@@ -61,10 +61,10 @@ func _process(_delta: float) -> void:
 			sprite.speed_scale = 0
 	if abs(vel.x) > 0:
 		sprite.flip_h = vel.x < 0
-	# if abs(vel.x) > 0.1 and vel.y == 0.0:
-	# 	Sounds.unpause("run", position)
-	# else:
-	# 	Sounds.pause("run", position)
+	if abs(vel.x) > 0.1 and vel.y == 0.0:
+		Sound.unpause("run", position)
+	else:
+		Sound.pause("run")
 
 	# Check if catcher line intersect with itself
 	var intersection = false
@@ -105,6 +105,8 @@ func _process(_delta: float) -> void:
 	# Draw dreamcatcher path
 	if not intersection and Input.is_action_pressed("attack"):
 		var mouse = get_global_mouse_position()
+
+		Sound.unpause("catch", mouse)
 		
 		var pts = catcher_line.points.size()
 		# Add new points for line as mouse is dragged
@@ -120,6 +122,8 @@ func _process(_delta: float) -> void:
 				if Geometry.is_point_in_polygon(d.position, catcher_line.points):
 					d.catch()
 			reset_line()
+	else:
+		Sound.pause("catch")
 	
 	# Check if line is longer than allowed
 	if linelen > max_line_len:
@@ -146,8 +150,8 @@ func _physics_process(_delta: float) -> void:
 	
 	# Set velocity to zero on ground
 	if is_on_floor():
-		if pvel.y > Game.gravity + 0.1:
-			Sound.play("hit1", position)
+		# if pvel.y > Game.gravity + 0.1:
+		# 	Sound.play("hit1", position)
 		vel.y = 0
 		jumps = 2
 	else:
@@ -160,9 +164,9 @@ func _physics_process(_delta: float) -> void:
 		sprite.speed_scale = 1
 		sprite.play("jump")
 		if jumps == 1:
-			Sound.play("jump1", position)
+			Sound.play("jump", position)
 		else:
-			Sound.play("jump2", position)
+			Sound.play("jump", position)
 	
 	# Terminal velocity
 	vel.y = min(vel.y, maxfall)
@@ -191,7 +195,7 @@ func reset_line():
 
 func death():
 	dead = true
-	Sound.play("die", position)
+	Sound.play("chime", position)
 	hide()
 	scene.fade_out(scene, "goto_end_screen")
 

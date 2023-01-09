@@ -48,6 +48,7 @@ func _process(delta):
 				var obj = Game.nightmares[rand_range(0, Game.nightmares.size()-1)].instance()
 				obj.position = position
 				$"/root/scene".call_deferred("add_child", obj)
+				Sound.play("nightmare_spawn", position)
 		State.TRANSFORMING:
 			pass
 		State.CATCHING:

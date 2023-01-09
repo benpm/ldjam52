@@ -79,8 +79,10 @@ func _process(delta):
 func attack():
 	attack_timer = attack_freq
 	sprite.speed_scale = 1
+	Sound.play("nightmare_attack", position)
 	if position.distance_to(player.position) < min_attack_dist:
 		player.attacked(1)
+		Sound.play("player_hurt", position)
 
 func attacked(dmg):
 	health -= dmg
@@ -131,9 +133,9 @@ func _physics_process(_delta: float) -> void:
 			sprite.play("jump")
 			dojump = false
 			if jumps == 1:
-				Sound.play("jump1", position)
+				Sound.play("jump", position)
 			else:
-				Sound.play("jump2", position)
+				Sound.play("jump", position)
 	
 	# Collision
 	pvel = vel

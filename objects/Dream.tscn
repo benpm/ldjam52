@@ -97,7 +97,7 @@ tracks/1/keys = {
 scale = Vector2( 0.40625, 0.40625 )
 z_index = 1
 frames = ExtResource( 2 )
-frame = 1
+frame = 3
 playing = true
 script = ExtResource( 1 )
 

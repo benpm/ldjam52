@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/nightmare_spawn.wav-338c0602c0c09a1533f9bc6713d39e09.sample"
+
+[deps]
+
+source_file="res://sound/nightmare_spawn.wav"
+dest_files=[ "res://.import/nightmare_spawn.wav-338c0602c0c09a1533f9bc6713d39e09.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
