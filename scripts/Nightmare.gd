@@ -165,7 +165,7 @@ func move_fly():
 		sprite.play("fly")
 
 func death():
-	var particles: CPUParticles2D = $"/root/scene/star_particles"
+	var particles: CPUParticles2D = $"/root/scene/fx/star_particles"
 	particles.position = position
 	particles.one_shot = true
 	particles.emitting = true

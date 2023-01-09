@@ -62,7 +62,8 @@ tracks/0/keys = {
 [node name="player" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 1 )
-jumpvel = 9.0
+movespeed = 14.0
+jumpvel = 15.0
 catcher_point_speed = 0.15
 
 [node name="sprite" type="AnimatedSprite" parent="."]

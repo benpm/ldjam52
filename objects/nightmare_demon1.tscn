@@ -1,27 +1,21 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/Nightmare.gd" type="Script" id=1]
-[ext_resource path="res://sprites/demon1.png" type="Texture" id=2]
 [ext_resource path="res://outline.tres" type="Material" id=3]
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 2 )
 region = Rect2( 405, 0, 135, 85 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 135, 85 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 2 )
 region = Rect2( 135, 0, 135, 85 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 2 )
 region = Rect2( 270, 0, 135, 85 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 2 )
 region = Rect2( 405, 0, 135, 85 )
 
 [sub_resource type="SpriteFrames" id=7]
@@ -31,14 +25,14 @@ animations = [ {
 "name": "fall",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 8 ) ],
-"loop": true,
-"name": "jump",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
 "loop": true,
 "name": "run",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 8 ) ],
+"loop": true,
+"name": "jump",
 "speed": 5.0
 } ]
 

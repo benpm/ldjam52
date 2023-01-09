@@ -41,5 +41,5 @@ void fragment() {
 	float factor = 1.5;
 	float final = float(round(fbm (coord + motion) * factor)) / factor;
 
-	COLOR = vec4(color, final);
+	COLOR = vec4(color, ceil(final));
 }
