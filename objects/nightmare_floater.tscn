@@ -68,7 +68,7 @@ has_gravity = false
 material = ExtResource( 3 )
 frames = SubResource( 1 )
 animation = "attack"
-frame = 3
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

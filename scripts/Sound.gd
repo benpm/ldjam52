@@ -2,19 +2,21 @@ extends Node
 
 var sounds = {}
 const sound_files = {
-	"catch": preload("res://sound/catch.wav"),
-	"chime": preload("res://sound/chime.wav"),
-	"jump": preload("res://sound/jump.wav"),
-	"nightmare_attack": preload("res://sound/nightmare_attack.wav"),
-	"nightmare_spawn": preload("res://sound/nightmare_spawn.wav"),
-	"player_hurt": preload("res://sound/player_hurt.wav"),
-	"run": preload("res://sound/run.wav"),
+	"catch": preload("res://sound/catch.ogg"),
+	"chime": preload("res://sound/chime.ogg"),
+	"jump": preload("res://sound/jump.ogg"),
+	"nightmare_attack": preload("res://sound/nightmare_attack.ogg"),
+	"nightmare_spawn": preload("res://sound/nightmare_spawn.ogg"),
+	"player_hurt": preload("res://sound/player_hurt.ogg"),
+	"run": preload("res://sound/run.ogg"),
+	"collect": preload("res://sound/collect.ogg"),
+	"hit": preload("res://sound/hit.ogg"),
 }
 
 func _ready():
 	for name in sound_files.keys():
-		var stream: AudioStreamSample = sound_files[name]
-		stream.loop_mode = AudioStreamSample.LOOP_DISABLED
+		var stream: AudioStreamOGGVorbis = sound_files[name]
+		stream.loop = false
 		var player: AudioStreamPlayer2D = AudioStreamPlayer2D.new()
 		player.name = name
 		player.stream = stream
@@ -31,10 +33,11 @@ func play(name: String, pos: Vector2):
 	sounds[name].play()
 
 func unpause(name: String, pos: Vector2):
-	if sounds[name].stream.loop_mode != AudioStreamSample.LOOP_FORWARD:
+	if not sounds[name].stream.loop:
 		sounds[name].play()
-		sounds[name].stream.loop_mode = AudioStreamSample.LOOP_FORWARD
-	sounds[name].playing = true
+		sounds[name].stream.loop = true
+	if not sounds[name].playing:
+		sounds[name].playing = true
 	if pos != null:
 		sounds[name].position = pos
 

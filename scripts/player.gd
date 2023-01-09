@@ -40,7 +40,7 @@ func add_dream(amount):
 
 func _process(_delta: float) -> void:
 	if not dead and \
-		(position.y > scene.get_node("bottom_boundary").position.y or health < 0):
+		(position.y > scene.get_node("bottom_boundary").position.y or health <= 0):
 		death()
 
 	# Control animation
@@ -195,7 +195,7 @@ func reset_line():
 
 func death():
 	dead = true
-	Sound.play("chime", position)
+	Sound.play("chime", Vector2.ZERO)
 	hide()
 	scene.fade_out(scene, "goto_end_screen")
 
@@ -203,3 +203,4 @@ func attacked(dmg):
 	health -= dmg
 	animator.playback_speed = 3
 	animator.play("blink")
+	$"/root/scene".find_node("hp_bar").value = (health / 3.0) * 100

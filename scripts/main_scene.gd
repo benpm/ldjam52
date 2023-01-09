@@ -4,6 +4,15 @@ extends Node2D
 onready var overlay_rect: ColorRect = $"overlay_container/overlay_rect"
 onready var tween: Tween = overlay_rect.get_node("Tween")
 
+
+const nightmares = [
+	preload("res://objects/nightmare_demon1.tscn"),
+	preload("res://objects/nightmare_floater.tscn"),
+	preload("res://objects/nightmare_snake.tscn"),
+	preload("res://objects/nightmare_wasp.tscn"),
+	preload("res://objects/nightmare_spider.tscn")
+]
+
 func _ready() -> void:
 	$fx.show()
 	for n in get_tree().get_nodes_in_group("bg_layer"):

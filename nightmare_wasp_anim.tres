@@ -11,13 +11,13 @@
 
 [resource]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "attack",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "fly",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "attack",
 "speed": 5.0
 } ]

@@ -45,7 +45,8 @@ func _process(delta):
 				state = State.TRANSFORMING
 				play("transforming")
 				animator.play("transform")
-				var obj = Game.nightmares[rand_range(0, Game.nightmares.size()-1)].instance()
+				var n = $"/root/scene".nightmares
+				var obj = n[rand_range(0, n.size()-1)].instance()
 				obj.position = position
 				$"/root/scene".call_deferred("add_child", obj)
 				Sound.play("nightmare_spawn", position)
@@ -68,3 +69,5 @@ func catch():
 		state = State.CATCHING
 		speed_scale = 1.0
 		play("catching")
+		get_tree().create_timer(rand_range(0.0, 0.3)) \
+			.connect("timeout", Sound, "play", ["collect", position])

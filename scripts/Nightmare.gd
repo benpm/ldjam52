@@ -90,6 +90,7 @@ func attacked(dmg):
 	animator.playback_speed = 3
 	stun_timer = 0.25
 	sprite.stop()
+	Sound.play("hit", position)
 
 func _physics_process(_delta: float) -> void:
 	# Control animation
@@ -119,7 +120,6 @@ func _physics_process(_delta: float) -> void:
 		if is_on_floor():
 			if pvel.y > Game.gravity + 0.1:
 				vel.x = 0
-				Sound.play("hit1", position)
 			vel.y = 0
 			jumps = 2
 		else:

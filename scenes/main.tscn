@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://objects/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/camera.gd" type="Script" id=2]
 [ext_resource path="res://objects/Dream.tscn" type="PackedScene" id=3]
 [ext_resource path="res://tileset.tres" type="TileSet" id=4]
 [ext_resource path="res://sprites/star.png" type="Texture" id=5]
+[ext_resource path="res://sprites/hp.png" type="Texture" id=6]
 [ext_resource path="res://icon.png" type="Texture" id=9]
 [ext_resource path="res://fog.tres" type="Material" id=10]
 [ext_resource path="res://art/Sky.png" type="Texture" id=11]
@@ -146,6 +147,7 @@ color = Color( 0, 0, 0, 1 )
 
 [node name="dream" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1152, 590 )
+frame = 1
 
 [node name="window" parent="." instance=ExtResource( 16 )]
 position = Vector2( 1280, 640 )
@@ -161,3 +163,17 @@ position = Vector2( 4544, 768 )
 
 [node name="window5" parent="." instance=ExtResource( 16 )]
 position = Vector2( 4736, 2208 )
+
+[node name="ui_layer" type="CanvasLayer" parent="."]
+
+[node name="ui" type="Control" parent="ui_layer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="hp_bar" type="TextureProgress" parent="ui_layer/ui"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 288.0
+margin_bottom = 128.0
+value = 100.0
+texture_progress = ExtResource( 6 )
