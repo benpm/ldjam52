@@ -2,6 +2,7 @@ shader_type canvas_item;
 
 uniform vec3 color = vec3(0.90, 0.90, 0.98);
 uniform int OCTAVES = 4;
+uniform float alpha = 0.5;
 
 float rand(vec2 coord){
 	return fract(sin(dot(coord, vec2(56,78)) * 1000.0) * 1000.0);
@@ -41,5 +42,5 @@ void fragment() {
 	float factor = 1.5;
 	float final = float(round(fbm (coord + motion) * factor)) / factor;
 
-	COLOR = vec4(color, ceil(final));
+	COLOR = vec4(color, ceil(final) * alpha);
 }

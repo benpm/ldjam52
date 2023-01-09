@@ -38,8 +38,10 @@ func _process(delta):
 				animator.play("shake")
 				play("darkening")
 		State.DARKENING:
-			frame = ceil((1.0 - ((lifetime - t) / lifetime)) * (frames.get_frame_count("darkening") - 1))
+			speed_scale = 0.0
+			frame = floor(((t - deftime) / warntime) * frames.get_frame_count("darkening"))
 			if t > lifetime:
+				speed_scale = 1.0
 				state = State.TRANSFORMING
 				play("transforming")
 				animator.play("transform")

@@ -171,3 +171,4 @@ color = Color( 0, 0, 0, 1 )
 
 [node name="dream" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1152, 590 )
+frame = 1

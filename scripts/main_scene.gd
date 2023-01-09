@@ -6,6 +6,7 @@ onready var tween: Tween = overlay_rect.get_node("Tween")
 
 func _ready() -> void:
 	$fx.show()
+	Game.score = 0
 	overlay_rect.modulate = Color(0, 0, 0, 1)
 	tween.interpolate_property(overlay_rect, "modulate", overlay_rect.modulate, Color(0, 0, 0, 0), 0.5)
 	tween.start()

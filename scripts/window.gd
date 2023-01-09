@@ -1,5 +1,9 @@
 extends AnimatedSprite
 
+export (float) var on_chance = 0.1
+export (float) var sleep_chance = 0.25
+export (float) var dream_chance = 0.25
+
 enum State {OFF, ON, ZZZ};
 var state = State.OFF
 

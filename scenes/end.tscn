@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://DreamHeart.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://scripts/end_ui.gd" type="Script" id=2]
-[ext_resource path="res://nightmare_wasp_anim.tres" type="SpriteFrames" id=3]
-[ext_resource path="res://sprites/DreamSprite.png" type="Texture" id=4]
+[ext_resource path="res://dream_anim.tres" type="SpriteFrames" id=3]
 [ext_resource path="res://sprites/button_exit.png" type="Texture" id=5]
 [ext_resource path="res://sprites/button_retry.png" type="Texture" id=6]
 
@@ -26,24 +25,19 @@ margin_bottom = 634.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="score" type="Label" parent="."]
-margin_left = 768.0
+margin_left = 584.0
 margin_top = 256.0
-margin_right = 1061.0
+margin_right = 877.0
 margin_bottom = 509.0
-custom_colors/font_color = Color( 1, 0.980392, 0.466667, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 1 )
-text = "192"
+text = "0"
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 350, 388 )
-scale = Vector2( 2.62143, 2.62143 )
+[node name="DreamSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 451, 359 )
 frames = ExtResource( 3 )
-animation = "fly"
+frame = 2
 playing = true
-
-[node name="DreamSprite" type="Sprite" parent="."]
-position = Vector2( 699, 359 )
-texture = ExtResource( 4 )
 
 [node name="exit_button" type="TextureButton" parent="."]
 anchor_right = 0.204

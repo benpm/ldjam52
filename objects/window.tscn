@@ -31,6 +31,9 @@ z_index = -1
 frames = SubResource( 5 )
 frame = 1
 script = ExtResource( 2 )
+on_chance = 0.05
+sleep_chance = 0.1
+dream_chance = 0.05
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 amount = 3
