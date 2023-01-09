@@ -9,6 +9,9 @@ export(float) var movespeed: float = 8.0
 export(float) var jumpvel: float = 6
 export(float) var catcher_point_speed: float = 0.05
 export(float) var health: int = 3
+export(float) var max_line_len: float = 650
+
+export(Curve) var catcher_line_curve: Curve = null
 
 onready var sprite: AnimatedSprite = $sprite
 onready var catcher_line: Line2D = $catcher_line_container/catcher_line
@@ -27,6 +30,7 @@ var stepped: bool
 var dead := false
 var dream = 0
 var fallthru := false
+var linelen = 0.0
 
 func _ready():
 	sprite.play("run")
@@ -61,10 +65,6 @@ func _process(_delta: float) -> void:
 	# 	Sounds.unpause("run", position)
 	# else:
 	# 	Sounds.pause("run", position)
-	
-	# World boundary
-	# if position.y > maxy:
-	# 	death()
 
 	# Check if catcher line intersect with itself
 	var intersection = false
@@ -79,8 +79,7 @@ func _process(_delta: float) -> void:
 				intersection = true
 				break
 		if intersection:
-			Input.action_release("attack")
-			catcher_line.clear_points()
+			reset_line()
 			break
 	
 	# Check if line intersects with nightmares
@@ -99,10 +98,8 @@ func _process(_delta: float) -> void:
 				n.position + Vector2(-ext.x, ext.y)
 			]
 			if Geometry.intersect_polyline_with_polygon_2d(catcher_line.points, bbox_points):
-				Input.action_release("attack")
-				catcher_line.clear_points()
+				reset_line()
 				n.attacked(1)
-				# n.vel += -(position - n.position).normalized() * 500
 				break
 
 	# Draw dreamcatcher path
@@ -112,6 +109,8 @@ func _process(_delta: float) -> void:
 		var pts = catcher_line.points.size()
 		# Add new points for line as mouse is dragged
 		if pts == 0 or mouse.distance_to(catcher_line.points[pts - 1]) > 10:
+			if pts > 0:
+				linelen += mouse.distance_to(catcher_line.points[pts - 1])
 			catcher_line.add_point(mouse)
 
 		# Check if distance to first point is close enough to close loop
@@ -120,11 +119,17 @@ func _process(_delta: float) -> void:
 			for d in get_tree().get_nodes_in_group("dream"):
 				if Geometry.is_point_in_polygon(d.position, catcher_line.points):
 					d.catch()
-
-			catcher_line.clear_points()
-			Input.action_release("attack")
+			reset_line()
+	
+	# Check if line is longer than allowed
+	if linelen > max_line_len:
+		reset_line()
+	if linelen > 0:
+		catcher_line.width = catcher_line_curve.interpolate(linelen / max_line_len) * 30
+	
+	# Reset line if mouse is released
 	if not Input.is_action_pressed("attack") and catcher_line.points.size() > 0:
-		catcher_line.clear_points()
+		reset_line()
 
 func _physics_process(_delta: float) -> void:
 
@@ -178,6 +183,11 @@ func _physics_process(_delta: float) -> void:
 		position += vel
 	else:
 		vel = move_and_slide(vel * 60, Vector2(0, -1)) / 60
+
+func reset_line():
+	catcher_line.clear_points()
+	Input.action_release("attack")
+	linelen = 0.0
 
 func death():
 	dead = true

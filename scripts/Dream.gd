@@ -6,8 +6,9 @@ var float_speed = 30
 # The distance at which the object will start floating away
 var float_distance = 100
 
-var lifetime = 8.0
-var warntime = 3.0
+const deftime = 8.0
+const warntime = 3.0
+const lifetime = deftime + warntime
 
 enum State {DEFAULT, DARKENING, TRANSFORMING, CATCHING}
 var state = State.DEFAULT
@@ -32,16 +33,15 @@ func _process(delta):
 	
 	match state:
 		State.DEFAULT:
-			if t > lifetime:
+			if t > deftime:
 				state = State.DARKENING
 				animator.play("shake")
 				play("darkening")
 		State.DARKENING:
-			speed_scale = 0.0
-			frame = ceil((1.0 - ((t - lifetime) / lifetime)) * (frames.get_frame_count("darkening") - 1))
-			if t > lifetime + warntime:
+			frame = ceil((1.0 - ((lifetime - t) / lifetime)) * (frames.get_frame_count("darkening") - 1))
+			if t > lifetime:
 				state = State.TRANSFORMING
-				frame = frames.get_frame_count("darkening") - 1
+				play("transforming")
 				animator.play("transform")
 				var obj = Game.nightmares[rand_range(0, Game.nightmares.size()-1)].instance()
 				obj.position = position
