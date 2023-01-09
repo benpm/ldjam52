@@ -190,5 +190,5 @@ func death():
 	particles.restart()
 	var obj = dream_packed.instance()
 	obj.position = position
-	$"/root/scene".add_child(obj)
+	$"/root/scene".call_deferred("add_child", obj)
 	queue_free()

@@ -30,4 +30,4 @@ func _on_Timer_timeout():
 		set_state(State.OFF)
 		var obj = dream_packed.instance()
 		obj.position = position
-		$"/root/Game".add_child(obj)
+		$"/root/scene".call_deferred("add_child", obj)

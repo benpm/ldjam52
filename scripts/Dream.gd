@@ -22,3 +22,4 @@ func _process(delta):
 		if position.distance_to(player.position) < 25:
 			queue_free()
 			player.dream += 1
+			Game.score += 1

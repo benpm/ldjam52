@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://sprites/button_play.png" type="Texture" id=1]
+[ext_resource path="res://art/Sky.png" type="Texture" id=2]
+[ext_resource path="res://scripts/ui_menu.gd" type="Script" id=3]
+[ext_resource path="res://cursive_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://fog.tres" type="Material" id=5]
+[ext_resource path="res://icon.png" type="Texture" id=6]
+[ext_resource path="res://DreamHeart.otf" type="DynamicFontData" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 80
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 7 )
+
+[node name="ui" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="bg" type="TextureRect" parent="."]
+margin_left = -1459.0
+margin_top = -971.0
+margin_right = 6971.0
+margin_bottom = 4761.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+
+[node name="Fog" type="Sprite" parent="."]
+material = ExtResource( 5 )
+position = Vector2( 1169, 1934 )
+scale = Vector2( 172.16, 119.214 )
+texture = ExtResource( 6 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="title" type="Label" parent="VBoxContainer"]
+margin_right = 1320.0
+margin_bottom = 253.0
+custom_fonts/font = ExtResource( 4 )
+text = "Dream Catcher"
+align = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+alignment = 2
+
+[node name="score" type="Label" parent="VBoxContainer2"]
+margin_top = 617.0
+margin_right = 1260.0
+margin_bottom = 720.0
+custom_colors/font_color = Color( 1, 0.980392, 0.466667, 1 )
+custom_fonts/font = SubResource( 1 )
+valign = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( -822, -119 )
+
+[node name="play_button" type="TextureButton" parent="CenterContainer"]
+margin_left = 512.0
+margin_top = 296.0
+margin_right = 768.0
+margin_bottom = 424.0
+texture_normal = ExtResource( 1 )
+
+[connection signal="pressed" from="CenterContainer/play_button" to="." method="_on_play_button_pressed"]

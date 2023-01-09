@@ -15,6 +15,9 @@ onready var catcher_line: Line2D = $catcher_line_container/catcher_line
 onready var animator: AnimationPlayer = $AnimationPlayer
 
 onready var initpos: Vector2 = position
+
+onready var scene = $"/root/scene"
+
 var vel: Vector2 = Vector2(0, 0)
 var pvel: Vector2
 var jumps: int = 0
@@ -31,6 +34,9 @@ func add_dream(amount):
 	dream += amount
 
 func _process(_delta: float) -> void:
+	if not dead and \
+		(position.y > scene.get_node("bottom_boundary").position.y or health < 0):
+		death()
 
 	# Control animation
 	if abs(vel.y) < 0.1:
@@ -44,7 +50,10 @@ func _process(_delta: float) -> void:
 		elif sprite.frame != 1:
 			stepped = false
 	elif vel.y > 0.1:
-		sprite.animation = "fall"
+		sprite.play("fall")
+		sprite.speed_scale = 1
+		if sprite.frame == sprite.frames.get_frame_count("fall") - 1:
+			sprite.speed_scale = 0
 	if abs(vel.x) > 0:
 		sprite.flip_h = vel.x < 0
 	# if abs(vel.x) > 0.1 and vel.y == 0.0:
@@ -174,7 +183,7 @@ func death():
 	dead = true
 	Sound.play("die", position)
 	hide()
-	# Global.game.player_died()
+	scene.fade_out(scene, "goto_end_screen")
 
 func attacked(dmg):
 	health -= dmg

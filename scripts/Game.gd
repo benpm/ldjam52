@@ -7,3 +7,6 @@ enum CollLayer {
 	PLATFORM = 2,
 	ENEMY = 3,
 }
+
+var score: int = 0
+var high_score: int = 0
