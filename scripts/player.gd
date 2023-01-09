@@ -118,8 +118,8 @@ func _process(_delta: float) -> void:
 		if (pts > 5 and mouse.distance_to(catcher_line.points[0]) < 40):
 			# Catch all dreams inside catcher line
 			for d in get_tree().get_nodes_in_group("dream"):
-				if not d.catching and Geometry.is_point_in_polygon(d.position, catcher_line.points):
-					d.catching = true
+				if Geometry.is_point_in_polygon(d.position, catcher_line.points):
+					d.catch()
 
 			catcher_line.clear_points()
 			Input.action_release("attack")

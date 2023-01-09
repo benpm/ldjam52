@@ -4,11 +4,12 @@ Ludum Dare 52 January 2023
 ## Todo
 ### Priority
 - [x] Fix platform collisions
-- [ ] Dreams turn into nightmares
+- [x] Dreams turn into nightmares
 - [ ] Limit line length
 - [ ] Better dream art
 - [ ] More buildings
 - [ ] Progression screen
+- [ ] Improve nightmare behavior
 - [ ] Day / night cycle
 - [ ] Sounds
 
