@@ -26,6 +26,7 @@ var landed: bool
 var stepped: bool
 var dead := false
 var dream = 0
+var fallthru := false
 
 func _ready():
 	sprite.play("run")
@@ -39,10 +40,10 @@ func _process(_delta: float) -> void:
 		death()
 
 	# Control animation
-	if abs(vel.y) < 0.1:
+	if is_on_floor():
 		if sprite.animation != "run":
 			sprite.animation = "run"
-		sprite.speed_scale = abs(vel.x / 3)
+		sprite.speed_scale = (abs(vel.x) + abs(vel.y)) / 3
 		if vel.x == 0:
 			sprite.frame = 0
 		if sprite.frame == 1 and not stepped:
@@ -162,22 +163,21 @@ func _physics_process(_delta: float) -> void:
 	vel.y = min(vel.y, maxfall)
 
 	# Fall through one-way platforms
-	if Input.is_action_just_pressed("fall"):
-		position.y += 2
-		if vel.y != 0:
-			vel.y = 6
+	if is_on_floor() and Input.is_action_just_pressed("fall"):
+		fallthru = true
+		vel.x = 0
+		vel.y = 1
+		position.y += 6
+	if Input.is_action_just_released("fall"):
+		fallthru = false
 	
 	# Collision
 	pvel = vel
-	vel = move_and_slide(vel * 60, Vector2(0, -1)) / 60
-	for i in get_slide_count():
-		var col = get_slide_collision(i)
-		if col.collider is TileMap:
-			var t: TileMap = col.collider
-			var p = t.world_to_map(col.position)
-			var c = t.get_cell_autotile_coord(p.x, p.y)
-			# if t.tile_set.is_damage_tile(c):
-			# 	death()
+	
+	if fallthru:
+		position += vel
+	else:
+		vel = move_and_slide(vel * 60, Vector2(0, -1)) / 60
 
 func death():
 	dead = true

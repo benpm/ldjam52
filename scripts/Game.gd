@@ -1,6 +1,6 @@
 extends Node
 
-var gravity: float = 0.5
+var gravity: float = 0.65
 enum CollLayer {
 	PLAYER = 0,
 	DREAMS = 1,
