@@ -11,15 +11,15 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "attack",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "float",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "attack",
+"speed": 15.0
 } ]
 
 [sub_resource type="CircleShape2D" id=2]
@@ -68,6 +68,8 @@ has_gravity = false
 material = ExtResource( 3 )
 frames = SubResource( 1 )
 animation = "attack"
+frame = 4
+playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 1 )

@@ -1,9 +1,8 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/Nightmare.gd" type="Script" id=1]
 [ext_resource path="res://sprites/Nightmares/Snake/Frame3.png" type="Texture" id=2]
 [ext_resource path="res://sprites/Nightmares/Snake/Frame1.png" type="Texture" id=3]
-[ext_resource path="res://sprites/Nightmares/Snake/Frame2.png" type="Texture" id=4]
 [ext_resource path="res://sprites/Nightmares/Snake/Frame4.png" type="Texture" id=5]
 [ext_resource path="res://outline.tres" type="Material" id=6]
 [ext_resource path="res://sprites/Nightmares/Snake/A_Frame4.png" type="Texture" id=7]
@@ -12,12 +11,12 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 3 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 3 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "attack",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 2 ), ExtResource( 7 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "fly",
 "speed": 5.0

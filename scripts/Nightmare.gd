@@ -7,6 +7,7 @@ export (float) var move_speed := 20.0
 export(float) var jumpvel: float = 6
 export (bool) var has_gravity: bool = true
 export (bool) var rotate_dir: bool = false
+export (float) var attack_freq: float = 0.5
 
 # The distance at which the object will start floating away
 var float_distance = 1000
@@ -19,38 +20,56 @@ var stepped: bool
 var attack_timer: float = 0.5
 var stun_timer: float = 0.0
 
+var min_attack_dist: float = 60
+
 onready var player = $"/root/scene/player"
 onready var shape = $CollisionShape2D.shape
 onready var sprite: AnimatedSprite = $AnimatedSprite
 onready var animator: AnimationPlayer = $AnimationPlayer
 
+const dream_packed: PackedScene = preload("res://objects/Dream.tscn")
+
 func _ready():
 	add_to_group("nightmare")
 	layers = 0
 	collision_mask = 0
+	match move_type:
+		MoveType.RUN:
+			sprite.play("run")
+		MoveType.FLOAT:
+			sprite.play("float")
+		MoveType.FLY:
+			sprite.play("fly")
 	set_collision_layer_bit(Game.CollLayer.ENEMY, true)
 	set_collision_mask_bit(Game.CollLayer.PLATFORM, true)
 
 func _process(delta):
 	if stun_timer > 0.0:
 		stun_timer -= delta
-		vel.x = 0
-	elif position.distance_to(player.position) < 30:
+		if has_gravity:
+			vel.x = 0
+		else:
+			vel = Vector2.ZERO
+	elif position.distance_to(player.position) < min_attack_dist:
 		vel = Vector2.ZERO
 		attack_timer -= delta
+		sprite.animation = "attack"
+		sprite.frame = floor((attack_timer / attack_freq) * sprite.frames.get_frame_count("attack"))
 		if attack_timer <= 0:
-			attack_timer = 0.5
 			attack()
 	else:
+		# Complete attack
 		attack_timer -= delta
 		if attack_timer <= 0.0:
-			attack_timer = 0.5
+			attack_timer = attack_freq
 			match move_type:
 				MoveType.FLOAT:
+					sprite.animation = "float"
 					move_float()
 				MoveType.RUN:
 					move_run()
 				MoveType.FLY:
+					sprite.animation = "fly"
 					move_fly()
 	
 	if health <= 0:
@@ -58,8 +77,9 @@ func _process(delta):
 		death()
 
 func attack():
-	sprite.play("attack")
-	if position.distance_to(player.position) < 30:
+	attack_timer = attack_freq
+	sprite.speed_scale = 1
+	if position.distance_to(player.position) < min_attack_dist:
 		player.attacked(1)
 
 func attacked(dmg):
@@ -88,14 +108,15 @@ func _physics_process(_delta: float) -> void:
 			if abs(vel.x) > 0:
 				sprite.flip_h = vel.x < 0
 		MoveType.FLOAT:
-			sprite.animation = "float"
+			pass
 		MoveType.FLY:
-			sprite.animation = "fly"
+			pass
 		
 	# Set velocity to zero on ground
 	if has_gravity:
 		if is_on_floor():
 			if pvel.y > Game.gravity + 0.1:
+				vel.x = 0
 				Sound.play("hit1", position)
 			vel.y = 0
 			jumps = 2
@@ -129,9 +150,6 @@ func move_float():
 		
 		# Apply a force in the float direction
 		vel = -float_direction * move_speed
-		
-		# Rotate slightly as the object floats away
-		sprite.rotation += 1
 	else:
 		vel = Vector2.ZERO
 
@@ -170,4 +188,7 @@ func death():
 	particles.one_shot = true
 	particles.emitting = true
 	particles.restart()
+	var obj = dream_packed.instance()
+	obj.position = position
+	$"/root/scene".add_child(obj)
 	queue_free()
